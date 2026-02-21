@@ -12,6 +12,7 @@ export function Home() {
         alt="avatar"
         className="rounded-full w-32 h-32"
       />
+
       <h6 className="text-lg font-semibold">{user.data?.name}</h6>
       <span className="text-muted-foreground font-normal">
         {user.data?.bio}
