@@ -15,7 +15,7 @@ export const githubService = {
 
   // starred repos
   async getStarredRepos(username: string) {
-    const response = await api(`/users/${username}/starred`);
+    const response = await api<GithubRepo[]>(`/users/${username}/starred`);
     return response;
   },
 };

@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { FilterDropdown } from "@/components/ui/filter-dropdown";
 import { RepositoriesContent } from "@/components/repositories-content";
+import { StarredRepositoriesContent } from "@/components/starred-repositories-content";
 
 const languageOptions = [
   { value: "java", label: "Java" },
@@ -68,7 +69,9 @@ export function Home() {
           <RepositoriesContent />
         </TabsContent>
 
-        <TabsContent value="starred">starred content</TabsContent>
+        <TabsContent value="starred">
+          <StarredRepositoriesContent />
+        </TabsContent>
       </Tabs>
     </div>
   );
