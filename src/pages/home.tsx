@@ -8,6 +8,11 @@ import { FilterDropdown } from "@/components/ui/filter-dropdown";
 import { RepositoriesContent } from "@/components/repositories-content";
 import { StarredRepositoriesContent } from "@/components/starred-repositories-content";
 
+import { useGithubStore } from "@/store/github-store";
+import { useGithubRepositories } from "@/hooks/use-github-repositories";
+import { useGithubStarred } from "@/hooks/use-github-starred";
+import { useGithubUser } from "@/hooks/use-github-user";
+
 const languageOptions = [
   { value: "java", label: "Java" },
   { value: "typescript", label: "TypeScript" },
@@ -26,6 +31,14 @@ export function Home() {
   const [selectedLanguage, setSelectedLanguage] = useState<string[]>([]);
   const [selectedType, setSelectedType] = useState<string[]>([]);
 
+  const username = useGithubStore((s) => s.username);
+  const countRepos = useGithubStore((s) => s.repos.length);
+  const countStarredRepos = useGithubStore((s) => s.starredRepos.length);
+
+  useGithubUser(username);
+  useGithubRepositories(username);
+  useGithubStarred(username);
+
   return (
     <div className="flex flex-col md:flex-row md:items-start gap-4 items-center p-4">
       <UserProfile />
@@ -35,12 +48,12 @@ export function Home() {
           <TabsTrigger value="repositories">
             <BookMarked size={24} />
             Repositories
-            <Badge>123</Badge>
+            <Badge>{countRepos}</Badge>
           </TabsTrigger>
           <TabsTrigger value="starred">
             <Star size={24} />
             Starred
-            <Badge>123</Badge>
+            <Badge>{countStarredRepos}</Badge>
           </TabsTrigger>
         </TabsList>
 
