@@ -37,8 +37,7 @@ export function Home() {
             value={languageOptions.map((option) => option.value) || []}
             onChange={() => {}}
             options={languageOptions}
-            placeholder="Selecione os signatário(s)"
-            maxVisibleItems={1}
+            placeholder="Select language"
           />
         </TabsContent>
         <TabsContent value="starred">Change your password here.</TabsContent>

@@ -1,10 +1,13 @@
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { cn } from "@/lib/utils";
+import { Check, ChevronDown, X } from "lucide-react";
+import { useMemo, useState } from "react";
 
 interface Option<T = string> {
   value: T;
@@ -18,84 +21,111 @@ interface MultiSelectProps<T = string> {
   placeholder?: string;
   className?: string;
   id?: string;
-  maxVisibleItems?: number;
+  title?: string;
+  allLabel?: string;
 }
 
 export function MultiSelect<T = string>({
   value,
   onChange,
   options,
-  placeholder = "Selecione...",
+  placeholder = "Select language",
   className,
   id,
-  maxVisibleItems,
+  title = "Select language",
+  allLabel = "All",
 }: MultiSelectProps<T>) {
+  const [open, setOpen] = useState(false);
+
+  const selectedValue = value?.[0];
+  const selectedLabel = useMemo(() => {
+    if (!selectedValue) return allLabel;
+    return (
+      options.find((option) => option.value === selectedValue)?.label ??
+      allLabel
+    );
+  }, [allLabel, options, selectedValue]);
+
+  const selectAll = () => {
+    onChange([]);
+    setOpen(false);
+  };
+
+  const selectOne = (optionValue: T) => {
+    onChange([optionValue]);
+    setOpen(false);
+  };
+
+  const isAllSelected = !selectedValue;
+
   return (
-    <DropdownMenu>
+    <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger asChild>
         <Button
-          variant="outline"
-          className={`w-full justify-start text-left h-auto px-3 py-2 ${className}`}
-          type="button"
           id={id}
-        >
-          {value?.length > 0 ? (
-            <div className="flex flex-wrap gap-1 w-full">
-              {options
-                .filter((option) => value.includes(option.value))
-                .slice(0, maxVisibleItems)
-                .map((option) => (
-                  <span
-                    key={String(option.value)}
-                    className="inline-flex items-center gap-1 px-2 py-1 text-xs bg-primary/10 text-primary rounded-full border dark:border-gray-700 dark:bg-primary/20 dark:text-primary-foreground"
-                  >
-                    {option.label}
-                  </span>
-                ))}
-              {maxVisibleItems && value.length > maxVisibleItems && (
-                <span className="inline-flex items-center gap-1 px-2 py-1 text-xs bg-primary/10 text-primary rounded-full border dark:border-gray-700 dark:bg-primary/20 dark:text-primary-foreground">
-                  +{value.length - maxVisibleItems}
-                </span>
-              )}
-            </div>
-          ) : (
-            <span className="text-muted-foreground font-normal">
-              {placeholder}
-            </span>
+          type="button"
+          variant="outline"
+          className={cn(
+            "h-11  justify-between rounded-md border border-border bg-background px-4  font-medium text-foreground hover:bg-accent/40",
+            className,
           )}
+        >
+          <span className="truncate">{selectedLabel || placeholder}</span>
+          <ChevronDown className="size-4 opacity-70" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-[var(--radix-dropdown-menu-trigger-width)]">
-        <DropdownMenuCheckboxItem
-          checked={value?.length === options.length}
-          onCheckedChange={(checked) => {
-            if (checked) {
-              onChange(options.map((option) => option.value));
-            } else {
-              onChange([]);
-            }
-          }}
-          className="font-medium"
-        >
-          Selecionar todos
-        </DropdownMenuCheckboxItem>
 
-        <div className="border-t my-1" />
-
-        {options.map((option) => (
-          <DropdownMenuCheckboxItem
-            key={String(option.value)}
-            checked={value?.includes(option.value)}
-            onCheckedChange={(checked) => {
-              const newValue = checked
-                ? [...value, option.value]
-                : value.filter((v) => v !== option.value);
-              onChange(newValue);
-            }}
+      <DropdownMenuContent
+        align="start"
+        sideOffset={8}
+        className="w-[500px] max-w-[calc(100vw-2rem)] rounded-md border border-border bg-background p-0 shadow-md"
+      >
+        <div className="flex items-center justify-between border-b border-border px-4 py-3">
+          <span className=" font-normal leading-none text-foreground">
+            {title}
+          </span>
+          <button
+            type="button"
+            onClick={() => setOpen(false)}
+            className="inline-flex size-7 items-center justify-center rounded-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+            aria-label="Fechar"
           >
-            {option.label}
-          </DropdownMenuCheckboxItem>
-        ))}
+            <X className="size-5" />
+          </button>
+        </div>
+
+        <DropdownMenuItem
+          onSelect={(e) => {
+            e.preventDefault();
+            selectAll();
+          }}
+          className="flex h-13 cursor-pointer items-center gap-3 rounded-none border-b border-border px-4  font-normal text-foreground focus:bg-accent/40"
+        >
+          <span className="inline-flex w-6 items-center justify-center">
+            {isAllSelected ? <Check className="size-5" /> : null}
+          </span>
+          <span>{allLabel}</span>
+        </DropdownMenuItem>
+
+        {options.map((option) => {
+          const isSelected = selectedValue === option.value;
+
+          return (
+            <DropdownMenuItem
+              key={String(option.value)}
+              onSelect={(e) => {
+                e.preventDefault();
+                selectOne(option.value);
+              }}
+              className="flex h-13 cursor-pointer items-center gap-3 rounded-none border-b border-border px-4  font-normal text-foreground last:border-b-0 focus:bg-accent/40"
+            >
+              <span className="inline-flex w-6 items-center justify-center">
+                {isSelected ? <Check className="size-5" /> : null}
+              </span>
+              <span>{option.label}</span>
+            </DropdownMenuItem>
+          );
+        })}
       </DropdownMenuContent>
     </DropdownMenu>
   );
