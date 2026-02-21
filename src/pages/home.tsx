@@ -12,6 +12,7 @@ import { useGithubRepositories } from "@/hooks/use-github-repositories";
 import { useGithubStarred } from "@/hooks/use-github-starred";
 import { useGithubUser } from "@/hooks/use-github-user";
 import { useRepoFilterOptions } from "@/hooks/use-repo-filter-options";
+import type { RepoType } from "@/types/filters";
 
 export function Home() {
   const username = useGithubStore((s) => s.username);
@@ -53,13 +54,9 @@ export function Home() {
 
         <TabsContent value="repositories" className="space-y-3">
           <div className="flex flex-wrap items-center gap-3">
-            <FilterDropdown<string>
+            <FilterDropdown<RepoType>
               value={selectedTypes}
-              onChange={(value) =>
-                setSelectedTypes(
-                  value as ("source" | "fork" | "archived" | "mirror")[],
-                )
-              }
+              onChange={(value) => setSelectedTypes(value)}
               options={typeOptions}
               placeholder="Type"
             />
