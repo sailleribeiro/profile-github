@@ -65,7 +65,7 @@ export function Home() {
           />
         </TabsContent>
 
-        <TabsContent value="starred">Change your password here.</TabsContent>
+        <TabsContent value="starred">starred content</TabsContent>
       </Tabs>
     </div>
   );
