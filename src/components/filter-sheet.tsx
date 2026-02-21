@@ -67,7 +67,10 @@ export function FilterSheet<T = string>({
           <button
             type="button"
             onClick={selectAll}
-            className="flex h-12 w-full items-center gap-4 text-left"
+            className={cn(
+              "flex h-12 w-full items-center gap-4 rounded-none px-2 text-left hover:bg-dropdown-item-hover",
+              allSelected && "bg-dropdown-item-hover",
+            )}
           >
             <span
               className={cn(
@@ -92,7 +95,10 @@ export function FilterSheet<T = string>({
                 key={String(option.value)}
                 type="button"
                 onClick={() => toggleOption(option.value)}
-                className="flex h-12 w-full items-center gap-4 text-left"
+                className={cn(
+                  "flex h-12 w-full items-center gap-4 rounded-none px-2 text-left hover:bg-dropdown-item-hover",
+                  isSelected && "bg-dropdown-item-hover",
+                )}
               >
                 <span
                   className={cn(
