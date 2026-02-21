@@ -1,18 +1,11 @@
 import { useGithubRepositories } from "@/hooks/use-github-repositories";
-import { useGithubStarred } from "@/hooks/use-github-starred";
-
+import { CardRepo } from "./ui/card-repo";
 export const RepositoriesContent = () => {
   const repos = useGithubRepositories("sailleribeiro");
-  const starredRepos = useGithubStarred("sailleribeiro");
-
-  console.log("Starred Repos:", starredRepos.data);
   return (
-    <div>
+    <div className="flex flex-col gap-2">
       {repos.data?.map((repo) => (
-        <div key={repo.id} className="p-3 border rounded-lg mb-2">
-          <h2 className="text-lg font-bold">{repo.name}</h2>
-          <p>{repo.description}</p>
-        </div>
+        <CardRepo key={repo.id} repo={repo} />
       ))}
     </div>
   );
