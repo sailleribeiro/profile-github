@@ -1,9 +1,9 @@
 import { create } from "zustand";
 import type { GithubRepo, GithubUser } from "@/types";
 
-type RepoType = "source" | "fork" | "archived" | "mirror";
+export type RepoType = "source" | "fork" | "archived" | "mirror";
 
-type GithubState = {
+type GithubStore = {
   username: string;
   user: GithubUser | null;
   repos: GithubRepo[];
@@ -18,12 +18,13 @@ type GithubState = {
   setRepos: (repos: GithubRepo[]) => void;
   setStarredRepos: (repos: GithubRepo[]) => void;
 
-  setSelectedLanguages: (langs: string[]) => void;
+  setSelectedLanguages: (languages: string[]) => void;
   setSelectedTypes: (types: RepoType[]) => void;
   setSearch: (value: string) => void;
+  resetFilters: () => void;
 };
 
-export const useGithubStore = create<GithubState>((set) => ({
+export const useGithubStore = create<GithubStore>((set) => ({
   username: "sailleribeiro",
   user: null,
   repos: [],
@@ -41,4 +42,10 @@ export const useGithubStore = create<GithubState>((set) => ({
   setSelectedLanguages: (selectedLanguages) => set({ selectedLanguages }),
   setSelectedTypes: (selectedTypes) => set({ selectedTypes }),
   setSearch: (search) => set({ search }),
+  resetFilters: () =>
+    set({
+      selectedLanguages: [],
+      selectedTypes: [],
+      search: "",
+    }),
 }));
