@@ -4,7 +4,7 @@ import { BookMarked, Search, Star } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { FilterDropdown } from "@/components/ui/multi-select";
+import { FilterDropdown } from "@/components/ui/filter-dropdown";
 
 const languageOptions = [
   { value: "java", label: "Java" },
