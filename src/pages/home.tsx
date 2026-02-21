@@ -61,6 +61,7 @@ export function Home() {
           <Input
             placeholder="Type Something Here..."
             icon={<Search className="text-blue-500" />}
+            id="search-input"
           />
         </TabsContent>
 

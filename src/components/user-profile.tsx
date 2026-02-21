@@ -37,7 +37,7 @@ export const UserProfile = () => {
           isAdditionalInfoOpen ? "max-h-80 opacity-100" : "max-h-0 opacity-0"
         }`}
       >
-        <div className="bg-gray-50 p-3 rounded-lg flex flex-col gap-2 text-blue-400">
+        <div className="bg-gray-50 md:bg-transparent p-3 rounded-lg flex flex-col gap-2 text-blue-400">
           <span className="flex gap-3 items-center">
             <Building2 size={18} /> {user.data?.company}
           </span>
