@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { FilterDropdown } from "@/components/ui/filter-dropdown";
+import { RepositoriesContent } from "@/components/repositories-content";
 
 const languageOptions = [
   { value: "java", label: "Java" },
@@ -63,6 +64,8 @@ export function Home() {
             icon={<Search className="text-blue-500" />}
             id="search-input"
           />
+
+          <RepositoriesContent />
         </TabsContent>
 
         <TabsContent value="starred">starred content</TabsContent>

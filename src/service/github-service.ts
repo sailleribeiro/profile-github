@@ -1,5 +1,5 @@
 import { api } from "@/config/api";
-import type { GithubUser } from "@/types";
+import type { GithubRepo, GithubUser } from "@/types";
 
 export const githubService = {
   async getUser(username: string) {
@@ -9,7 +9,7 @@ export const githubService = {
 
   // repos
   async getRepos(username: string) {
-    const response = await api(`/users/${username}/repos`);
+    const response = await api<GithubRepo[]>(`/users/${username}/repos`);
     return response;
   },
 
