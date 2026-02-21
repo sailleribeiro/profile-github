@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useGithubUser } from "@/hooks/use-github-user";
 import { Building2, ChevronUp, Link, MapPin } from "lucide-react";
+import { useGithubUser } from "@/hooks/use-github-user";
 
 export const UserProfile = () => {
   const user = useGithubUser("sailleribeiro");
