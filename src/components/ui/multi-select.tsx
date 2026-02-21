@@ -6,7 +6,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
-import { Check, ChevronDown, X } from "lucide-react";
+import { Check, ChevronDown } from "lucide-react";
 import { useMemo, useState } from "react";
 
 interface Option<T = string> {
@@ -14,49 +14,45 @@ interface Option<T = string> {
   label: string;
 }
 
-interface MultiSelectProps<T = string> {
+interface FilterDropdownProps<T = string> {
   value: T[];
   onChange: (value: T[]) => void;
   options: Option<T>[];
   placeholder?: string;
   className?: string;
   id?: string;
-  title?: string;
   allLabel?: string;
 }
 
-export function MultiSelect<T = string>({
+export function FilterDropdown<T = string>({
   value,
   onChange,
   options,
-  placeholder = "Select language",
+  placeholder = "Select",
   className,
   id,
-  title = "Select language",
   allLabel = "All",
-}: MultiSelectProps<T>) {
+}: FilterDropdownProps<T>) {
   const [open, setOpen] = useState(false);
 
-  const selectedValue = value?.[0];
-  const selectedLabel = useMemo(() => {
-    if (!selectedValue) return allLabel;
-    return (
-      options.find((option) => option.value === selectedValue)?.label ??
-      allLabel
-    );
-  }, [allLabel, options, selectedValue]);
+  const selectedValues = useMemo(() => value ?? [], [value]);
+
+  const allSelected =
+    options.length > 0 &&
+    options.every((option) => selectedValues.includes(option.value));
 
   const selectAll = () => {
-    onChange([]);
-    setOpen(false);
+    onChange(options.map((option) => option.value));
   };
 
-  const selectOne = (optionValue: T) => {
-    onChange([optionValue]);
-    setOpen(false);
+  const toggleOption = (optionValue: T) => {
+    const isSelected = selectedValues.includes(optionValue);
+    if (isSelected) {
+      onChange(selectedValues.filter((v) => v !== optionValue));
+      return;
+    }
+    onChange([...selectedValues, optionValue]);
   };
-
-  const isAllSelected = !selectedValue;
 
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
@@ -64,65 +60,81 @@ export function MultiSelect<T = string>({
         <Button
           id={id}
           type="button"
-          variant="outline"
           className={cn(
-            "h-11  justify-between rounded-md border border-border bg-background px-4  font-medium text-foreground hover:bg-accent/40",
+            "h-11 rounded-full px-5 text-white shadow-none hover:opacity-95",
+            "bg-[linear-gradient(89.89deg,_#0056A6_-30.01%,_#0587FF_125.65%)]",
+            "flex items-center gap-2",
             className,
           )}
         >
-          <span className="truncate">{selectedLabel || placeholder}</span>
-          <ChevronDown className="size-4 opacity-70" />
+          <ChevronDown className="size-4" />
+          <span className="truncate">{placeholder}</span>
         </Button>
       </DropdownMenuTrigger>
 
       <DropdownMenuContent
         align="start"
-        sideOffset={8}
-        className="w-[500px] max-w-[calc(100vw-2rem)] rounded-md border border-border bg-background p-0 shadow-md"
+        sideOffset={10}
+        className="w-[265px] rounded-lg border-0 bg-[#F2F8FD] p-2 shadow-md"
       >
-        <div className="flex items-center justify-between border-b border-border px-4 py-3">
-          <span className=" font-normal leading-none text-foreground">
-            {title}
-          </span>
-          <button
-            type="button"
-            onClick={() => setOpen(false)}
-            className="inline-flex size-7 items-center justify-center rounded-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
-            aria-label="Fechar"
-          >
-            <X className="size-5" />
-          </button>
-        </div>
-
         <DropdownMenuItem
           onSelect={(e) => {
             e.preventDefault();
             selectAll();
           }}
-          className="flex h-13 cursor-pointer items-center gap-3 rounded-none border-b border-border px-4  font-normal text-foreground focus:bg-accent/40"
+          className="flex h-10 cursor-pointer items-center gap-3 rounded-none px-2 text-black focus:bg-[#E6F0FA]"
         >
-          <span className="inline-flex w-6 items-center justify-center">
-            {isAllSelected ? <Check className="size-5" /> : null}
+          <span
+            className={cn(
+              "inline-flex size-5 items-center justify-center rounded-[2px] border",
+              allSelected
+                ? "border-blue-500 bg-blue-500 text-white"
+                : "border-zinc-300 bg-transparent text-transparent",
+            )}
+          >
+            <Check
+              className={cn(
+                "size-4",
+                allSelected ? "text-white" : "text-transparent",
+              )}
+            />
           </span>
-          <span>{allLabel}</span>
+          <span className={cn(allSelected && "text-blue-500")}>{allLabel}</span>
         </DropdownMenuItem>
 
         {options.map((option) => {
-          const isSelected = selectedValue === option.value;
+          const isSelected = selectedValues.includes(option.value);
 
           return (
             <DropdownMenuItem
               key={String(option.value)}
               onSelect={(e) => {
                 e.preventDefault();
-                selectOne(option.value);
+                toggleOption(option.value);
               }}
-              className="flex h-13 cursor-pointer items-center gap-3 rounded-none border-b border-border px-4  font-normal text-foreground last:border-b-0 focus:bg-accent/40"
+              className={cn(
+                "flex h-10 cursor-pointer items-center gap-3 rounded-none px-2 focus:bg-[#E6F0FA]",
+                isSelected && "bg-[#E6F0FA]",
+              )}
             >
-              <span className="inline-flex w-6 items-center justify-center">
-                {isSelected ? <Check className="size-5" /> : null}
+              <span
+                className={cn(
+                  "inline-flex size-5 items-center justify-center rounded-[2px] border",
+                  isSelected
+                    ? "border-blue-500 bg-blue-500 text-white"
+                    : "border-zinc-300 bg-transparent text-transparent",
+                )}
+              >
+                <Check
+                  className={cn(
+                    "size-4",
+                    isSelected ? "text-white" : "text-transparent",
+                  )}
+                />
               </span>
-              <span>{option.label}</span>
+              <span className={cn(isSelected && "text-blue-500")}>
+                {option.label}
+              </span>
             </DropdownMenuItem>
           );
         })}
