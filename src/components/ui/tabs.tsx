@@ -23,7 +23,7 @@ function Tabs({
 const tabsListVariants = cva("inline-flex items-center text-muted-foreground", {
   variants: {
     variant: {
-      default: "justify-between",
+      default: "justify-between md:justify-start",
       line: "w-full justify-start gap-2 border-b border-border bg-transparent p-0",
     },
   },

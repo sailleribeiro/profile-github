@@ -25,7 +25,7 @@ export function Home() {
   const [selectedType, setSelectedType] = useState<string[]>([]);
 
   return (
-    <div className="flex flex-col gap-4 items-center p-4">
+    <div className="flex flex-col md:flex-row md:items-start gap-4 items-center p-4">
       <UserProfile />
 
       <Tabs defaultValue="repositories">
@@ -60,7 +60,7 @@ export function Home() {
 
           <Input
             placeholder="Type Something Here..."
-            endIcon={<Search className="text-blue-500" />}
+            icon={<Search className="text-blue-500" />}
           />
         </TabsContent>
 
