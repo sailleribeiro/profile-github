@@ -7,7 +7,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { Check, ChevronDown } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { FilterSheet } from "../filter-sheet";
 
 interface Option<T = string> {
   value: T;
@@ -34,6 +35,15 @@ export function FilterDropdown<T = string>({
   allLabel = "All",
 }: FilterDropdownProps<T>) {
   const [open, setOpen] = useState(false);
+  const [isTabletUp, setIsTabletUp] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia("(min-width: 768px)");
+    const update = () => setIsTabletUp(media.matches);
+    update();
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
 
   const selectedValues = useMemo(() => value ?? [], [value]);
 
@@ -54,23 +64,43 @@ export function FilterDropdown<T = string>({
     onChange([...selectedValues, optionValue]);
   };
 
+  const trigger = (
+    <Button
+      id={id}
+      type="button"
+      onClick={!isTabletUp ? () => setOpen(true) : undefined}
+      className={cn(
+        "h-11 rounded-full px-5 text-white shadow-none hover:opacity-95",
+        "bg-[linear-gradient(89.89deg,var(--color-filter-trigger-from)_-30.01%,var(--color-filter-trigger-to)_125.65%)]",
+        "flex items-center gap-2",
+        className,
+      )}
+    >
+      <ChevronDown className="size-4" />
+      <span className="truncate">{placeholder}</span>
+    </Button>
+  );
+
+  if (!isTabletUp) {
+    return (
+      <>
+        {trigger}
+        <FilterSheet<T>
+          open={open}
+          onOpenChange={setOpen}
+          value={selectedValues}
+          onChange={onChange}
+          options={options}
+          title={placeholder}
+          allLabel={allLabel}
+        />
+      </>
+    );
+  }
+
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
-      <DropdownMenuTrigger asChild>
-        <Button
-          id={id}
-          type="button"
-          className={cn(
-            "h-11 rounded-full px-5 text-white shadow-none hover:opacity-95",
-            "bg-[linear-gradient(89.89deg,var(--color-filter-trigger-from)_-30.01%,var(--color-filter-trigger-to)_125.65%)]",
-            "flex items-center gap-2",
-            className,
-          )}
-        >
-          <ChevronDown className="size-4" />
-          <span className="truncate">{placeholder}</span>
-        </Button>
-      </DropdownMenuTrigger>
+      <DropdownMenuTrigger asChild>{trigger}</DropdownMenuTrigger>
 
       <DropdownMenuContent
         align="start"
@@ -82,7 +112,7 @@ export function FilterDropdown<T = string>({
             e.preventDefault();
             selectAll();
           }}
-          className="flex h-10 cursor-pointer items-center gap-3 rounded-none px-2 text-black focus:bg-dropdown-item-hover"
+          className="flex h-10 cursor-pointer items-center gap-3 rounded-none px-2 focus:bg-dropdown-item-hover"
         >
           <span
             className={cn(

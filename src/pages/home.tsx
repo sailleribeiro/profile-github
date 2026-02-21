@@ -14,10 +14,10 @@ const languageOptions = [
 ];
 
 const typeOptions = [
-  { value: "source", label: "Source" },
-  { value: "fork", label: "Fork" },
+  { value: "source", label: "Sources" },
+  { value: "fork", label: "Forks" },
   { value: "archived", label: "Archived" },
-  { value: "mirror", label: "Mirror" },
+  { value: "mirror", label: "Mirrors" },
 ];
 
 export function Home() {
@@ -43,19 +43,13 @@ export function Home() {
         </TabsList>
 
         <TabsContent value="repositories" className="space-y-3">
-          <Input
-            placeholder="Type Something Here..."
-            endIcon={<Search className="text-blue-500" />}
-          />
-
-          <div className="flex gap-3">
+          <div className="flex flex-wrap items-center gap-3">
             <FilterDropdown<string>
               value={selectedType}
               onChange={setSelectedType}
               options={typeOptions}
               placeholder="Type"
             />
-
             <FilterDropdown<string>
               value={selectedLanguage}
               onChange={setSelectedLanguage}
@@ -63,6 +57,11 @@ export function Home() {
               placeholder="Language"
             />
           </div>
+
+          <Input
+            placeholder="Type Something Here..."
+            endIcon={<Search className="text-blue-500" />}
+          />
         </TabsContent>
 
         <TabsContent value="starred">Change your password here.</TabsContent>
