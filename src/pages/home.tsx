@@ -1,17 +1,21 @@
 import { useGithubUser } from "@/hooks/use-github-user";
-import { useState } from "react";
 
 export function Home() {
-  const [username, setUsername] = useState("octocat");
-  const user = useGithubUser(username);
+  const user = useGithubUser("sailleribeiro");
 
   console.log(user);
 
   return (
-    <div>
-      <h1>Profile Github</h1>
-      <h2>Digite o nome de usuário do Github:</h2>
-      <span>{user.data?.name}</span>
+    <div className="flex flex-col gap-4 items-center bg-accent">
+      <img
+        src={user.data?.avatar_url}
+        alt="avatar"
+        className="rounded-full w-32 h-32"
+      />
+      <h6 className="text-lg font-semibold">{user.data?.name}</h6>
+      <span className="text-muted-foreground font-normal">
+        {user.data?.bio}
+      </span>
     </div>
   );
 }
