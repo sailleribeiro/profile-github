@@ -1,6 +1,6 @@
 import { UserProfile } from "@/components/user-profile";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BookMarked, Star } from "lucide-react";
+import { BookMarked, Search, Star } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
@@ -43,7 +43,10 @@ export function Home() {
         </TabsList>
 
         <TabsContent value="repositories" className="space-y-3">
-          <Input placeholder="Type Something Here..." />
+          <Input
+            placeholder="Type Something Here..."
+            endIcon={<Search className="text-blue-500" />}
+          />
 
           <div className="flex gap-3">
             <FilterDropdown<string>

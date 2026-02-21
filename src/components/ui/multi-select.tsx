@@ -62,7 +62,7 @@ export function FilterDropdown<T = string>({
           type="button"
           className={cn(
             "h-11 rounded-full px-5 text-white shadow-none hover:opacity-95",
-            "bg-[linear-gradient(89.89deg,_#0056A6_-30.01%,_#0587FF_125.65%)]",
+            "bg-[linear-gradient(89.89deg,var(--color-filter-trigger-from)_-30.01%,var(--color-filter-trigger-to)_125.65%)]",
             "flex items-center gap-2",
             className,
           )}
@@ -75,21 +75,21 @@ export function FilterDropdown<T = string>({
       <DropdownMenuContent
         align="start"
         sideOffset={10}
-        className="w-[265px] rounded-lg border-0 bg-[#F2F8FD] p-2 shadow-md"
+        className="w-66 rounded-lg border-0 bg-dropdown-surface p-2 shadow-md"
       >
         <DropdownMenuItem
           onSelect={(e) => {
             e.preventDefault();
             selectAll();
           }}
-          className="flex h-10 cursor-pointer items-center gap-3 rounded-none px-2 text-black focus:bg-[#E6F0FA]"
+          className="flex h-10 cursor-pointer items-center gap-3 rounded-none px-2 text-black focus:bg-dropdown-item-hover"
         >
           <span
             className={cn(
               "inline-flex size-5 items-center justify-center rounded-[2px] border",
               allSelected
                 ? "border-blue-500 bg-blue-500 text-white"
-                : "border-zinc-300 bg-transparent text-transparent",
+                : "border-dropdown-checkbox-border bg-transparent text-transparent",
             )}
           >
             <Check
@@ -113,8 +113,8 @@ export function FilterDropdown<T = string>({
                 toggleOption(option.value);
               }}
               className={cn(
-                "flex h-10 cursor-pointer items-center gap-3 rounded-none px-2 focus:bg-[#E6F0FA]",
-                isSelected && "bg-[#E6F0FA]",
+                "flex h-10 cursor-pointer items-center gap-3 rounded-none px-2 focus:bg-dropdown-item-hover",
+                isSelected && "bg-dropdown-item-hover",
               )}
             >
               <span
@@ -122,7 +122,7 @@ export function FilterDropdown<T = string>({
                   "inline-flex size-5 items-center justify-center rounded-[2px] border",
                   isSelected
                     ? "border-blue-500 bg-blue-500 text-white"
-                    : "border-zinc-300 bg-transparent text-transparent",
+                    : "border-dropdown-checkbox-border bg-transparent text-transparent",
                 )}
               >
                 <Check
