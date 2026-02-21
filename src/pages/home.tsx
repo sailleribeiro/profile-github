@@ -1,6 +1,17 @@
 import { UserProfile } from "@/components/user-profile";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookMarked, Star } from "lucide-react";
+import { MultiSelect } from "@/components/ui/multi-select";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+
+const languageOptions = [
+  { value: "All", label: "All" },
+  { value: "java", label: "Java" },
+  { value: "typescript", label: "TypeScript" },
+  { value: "html", label: "HTML" },
+  { value: "css", label: "CSS" },
+];
 
 export function Home() {
   return (
@@ -12,20 +23,23 @@ export function Home() {
           <TabsTrigger value="repositories">
             <BookMarked size={24} />
             Repositories
-            <div className="flex text-sm justify-center text-gray-400 bg-gray-50 w-10 border border-gray-300 rounded-full px-6 py-1 ">
-              123
-            </div>
+            <Badge> 123</Badge>
           </TabsTrigger>
           <TabsTrigger value="starred">
             <Star size={24} />
             Starred
-            <div className="flex text-sm justify-center text-gray-400 bg-gray-50 w-10 border border-gray-300 rounded-full px-6 py-1 ">
-              123
-            </div>
+            <Badge> 123</Badge>
           </TabsTrigger>
         </TabsList>
         <TabsContent value="repositories">
-          Make changes to your account here.
+          <Input placeholder="Type Something Here..." />
+          <MultiSelect<string>
+            value={languageOptions.map((option) => option.value) || []}
+            onChange={() => {}}
+            options={languageOptions}
+            placeholder="Selecione os signatário(s)"
+            maxVisibleItems={1}
+          />
         </TabsContent>
         <TabsContent value="starred">Change your password here.</TabsContent>
       </Tabs>
