@@ -1,11 +1,6 @@
 import { useMemo } from "react";
 import { useGithubStore } from "@/store/github-store";
-
-type Option<T extends string = string> = {
-  value: T;
-  label: string;
-};
-
+import type { FilterOption, RepoType } from "@/types/filters";
 export function useRepoFilterOptions() {
   const repos = useGithubStore((s) => s.repos);
   const starredRepos = useGithubStore((s) => s.starredRepos);
@@ -15,7 +10,7 @@ export function useRepoFilterOptions() {
     [repos, starredRepos],
   );
 
-  const languageOptions = useMemo<Option[]>(() => {
+  const languageOptions = useMemo<FilterOption<string>[]>(() => {
     const languages = Array.from(
       new Set(
         allRepos
@@ -25,13 +20,10 @@ export function useRepoFilterOptions() {
       ),
     ).sort();
 
-    return languages.map((lang) => ({
-      value: lang,
-      label: lang[0].toUpperCase() + lang.slice(1),
-    }));
+    return languages.map((lang) => ({ value: lang, label: lang }));
   }, [allRepos]);
 
-  const typeOptions = useMemo<Option[]>(() => {
+  const typeOptions = useMemo<FilterOption<RepoType>[]>(() => {
     const hasSource = allRepos.some((repo) => !repo.fork);
     const hasFork = allRepos.some((repo) => repo.fork);
     const hasArchived = allRepos.some((repo) => repo.archived);
@@ -42,7 +34,7 @@ export function useRepoFilterOptions() {
       hasFork ? { value: "fork", label: "Forks" } : null,
       hasArchived ? { value: "archived", label: "Archived" } : null,
       hasMirror ? { value: "mirror", label: "Mirrors" } : null,
-    ].filter((item): item is Option => Boolean(item));
+    ].filter((x): x is FilterOption<RepoType> => x !== null);
   }, [allRepos]);
 
   return { languageOptions, typeOptions };

@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import type { GithubRepo, GithubUser } from "@/types";
-
-export type RepoType = "source" | "fork" | "archived" | "mirror";
+import type { RepoType } from "@/types/filters";
 
 type GithubStore = {
   username: string;

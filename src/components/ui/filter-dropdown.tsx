@@ -9,23 +9,19 @@ import { cn } from "@/lib/utils";
 import { Check, ChevronDown } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { FilterSheet } from "../filter-sheet";
+import type { FilterOption } from "@/types/filters";
 
-interface Option<T = string> {
-  value: T;
-  label: string;
-}
-
-interface FilterDropdownProps<T = string> {
+type FilterDropdownProps<T extends string> = {
   value: T[];
   onChange: (value: T[]) => void;
-  options: Option<T>[];
+  options: FilterOption<T>[];
   placeholder?: string;
-  className?: string;
-  id?: string;
   allLabel?: string;
-}
+  id?: string;
+  className?: string;
+};
 
-export function FilterDropdown<T = string>({
+export function FilterDropdown<T extends string>({
   value,
   onChange,
   options,
