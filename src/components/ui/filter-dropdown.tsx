@@ -105,7 +105,7 @@ export function FilterDropdown<T = string>({
       <DropdownMenuContent
         align="start"
         sideOffset={10}
-        className="w-66 rounded-lg border-0 bg-dropdown-surface p-2 shadow-md"
+        className="w-66 rounded-lg border-0 bg-blue-50 p-2 shadow-md"
       >
         <DropdownMenuItem
           onSelect={(e) => {
