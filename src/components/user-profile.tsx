@@ -46,22 +46,33 @@ export const UserProfile = () => {
         }`}
       >
         <div className="bg-gray-50 md:bg-transparent p-3 md:px-5 rounded-lg flex flex-col gap-2 text-blue-500">
-          <span className="flex gap-3 items-center">
-            <Building2 size={18} /> {user?.company}
-          </span>
-          <span className="flex gap-3 items-center">
-            <MapPin size={18} /> {user?.location}
-          </span>
-          <a
-            href={user?.blog}
-            className="flex gap-3 items-center hover:underline"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Link size={18} />
-            {user?.blog}
-          </a>
-          <span className="flex gap-3 items-center">{user?.email}</span>
+          {user?.company && (
+            <span className="flex gap-3 items-center">
+              <Building2 size={18} /> {user?.company}
+            </span>
+          )}
+
+          {user?.location && (
+            <span className="flex gap-3 items-center">
+              <MapPin size={18} /> {user?.location}
+            </span>
+          )}
+
+          {user?.blog && (
+            <a
+              href={user?.blog}
+              className="flex gap-3 items-center hover:underline"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Link size={18} />
+              {user?.blog}
+            </a>
+          )}
+
+          {user?.email && (
+            <span className="flex gap-3 items-center">{user?.email}</span>
+          )}
         </div>
       </section>
     </div>
