@@ -66,7 +66,7 @@ export function FilterFormRepos<T extends string>({
       type="button"
       onClick={!isTabletUp ? () => setOpen(true) : undefined}
       className={cn(
-        "h-11 rounded-full px-5 text-white shadow-none hover:opacity-95",
+        "md:h-11 rounded-full px-5 text-white shadow-none hover:opacity-95",
         "bg-[linear-gradient(89.89deg,var(--color-filter-trigger-from)_-30.01%,var(--color-filter-trigger-to)_125.65%)]",
         "flex items-center gap-2",
         className,
