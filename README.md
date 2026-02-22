@@ -72,7 +72,7 @@ pnpm lint
 
 ## Deploy
 
-Aplicação publicada em: **[vercel]**
+Aplicação publicada em: **https://profile-github-eight.vercel.app/**
 
 
 ## Desafios encontrados
