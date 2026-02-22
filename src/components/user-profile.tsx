@@ -11,7 +11,7 @@ export const UserProfile = () => {
       <img
         src={user?.avatar_url}
         alt="avatar"
-        className="rounded-full w-32 h-32 shadow-lg"
+        className="rounded-full w-32 h-32 md:w-48 md:h-48 shadow-lg"
       />
 
       <h1 className="text-2xl text-gray-700 font-bold ">{user?.name}</h1>
@@ -22,7 +22,7 @@ export const UserProfile = () => {
       <button
         type="button"
         onClick={() => setIsAdditionalInfoOpen((prev) => !prev)}
-        className="text-blue-400 flex flex-col items-center gap-1 cursor-pointer"
+        className="text-blue-400 flex flex-col items-center gap-1 cursor-pointer md:hidden"
         aria-expanded={isAdditionalInfoOpen}
       >
         <p>Informações Adicionais</p>
@@ -35,7 +35,7 @@ export const UserProfile = () => {
       </button>
 
       <section
-        className={`overflow-hidden transition-all duration-300 ease-in-out w-full ${
+        className={`w-full overflow-hidden transition-all duration-300 ease-in-out md:overflow-visible md:max-h-none md:opacity-100 ${
           isAdditionalInfoOpen ? "max-h-80 opacity-100" : "max-h-0 opacity-0"
         }`}
       >
