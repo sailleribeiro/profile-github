@@ -29,6 +29,7 @@ export function Home() {
             Repositories
             <Badge>{countRepos}</Badge>
           </TabsTrigger>
+
           <TabsTrigger value="starred">
             <Star size={24} />
             Starred

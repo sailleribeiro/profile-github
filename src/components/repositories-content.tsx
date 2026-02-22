@@ -1,29 +1,14 @@
-import { useMemo } from "react";
-import { useGithubStore } from "@/store/github-store";
 import { CardRepo } from "./ui/card-repo";
-import { matchesLanguage, matchesSearch, matchesType } from "@/utils/filters";
 import { FormContainer } from "@/layout/form-container";
+import { useFilteredRepositories } from "@/hooks/use-filtered-repositories";
 
 export const RepositoriesContent = () => {
-  const repos = useGithubStore((s) => s.repos);
-  const selectedLanguages = useGithubStore((s) => s.selectedLanguages);
-  const selectedTypes = useGithubStore((s) => s.selectedTypes);
-  const search = useGithubStore((s) => s.search);
-
-  const items = useMemo(
-    () =>
-      repos.filter(
-        (repo) =>
-          matchesType(repo, selectedTypes) &&
-          matchesLanguage(repo, selectedLanguages) &&
-          matchesSearch(repo, search),
-      ),
-    [repos, selectedTypes, selectedLanguages, search],
-  );
+  const items = useFilteredRepositories("repos");
 
   return (
     <section className="space-y-3">
       <FormContainer />
+
       <div className="flex flex-col">
         {items.map((repo, index) => (
           <div key={repo.id}>
