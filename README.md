@@ -4,11 +4,12 @@ Aplicação React + TypeScript para visualizar perfil GitHub, repositórios e fa
 
 ## Stack utilizada
 
-- **React + Vite**
+- **React 19 + Vite**
 - **TypeScript**
 - **TailwindCSS**
 - **Zustand** (estado global)
 - **React Query** (cache/fetch assíncrono)
+- **React Router DOM** (roteamento)
 
 ## Funcionalidades implementadas
 
@@ -21,6 +22,19 @@ Aplicação React + TypeScript para visualizar perfil GitHub, repositórios e fa
 - Filtros por tipo e linguagem (dinâmicos, vindos dos dados da API)
 - Listagem com layout fiel ao Figma (responsivo)
 - Clique no repositório para visualizar mais informações/abrir destino
+- **Usuário dinâmico pela URL** (`/:username`)
+
+## Usuário dinâmico via URL
+
+A aplicação usa rota dinâmica para buscar qualquer perfil do GitHub:
+
+- `http://localhost:5173/sailleribeiro`
+- `http://localhost:5173/octocat`
+- `http://localhost:5173/torvalds`
+
+Comportamento:
+- `/` redireciona para um usuário padrão
+- `/:username` carrega perfil, repositórios e starred daquele usuário
 
 ## Arquitetura (resumo)
 
@@ -29,6 +43,78 @@ Aplicação React + TypeScript para visualizar perfil GitHub, repositórios e fa
 - `hooks/use-filtered-repositories.ts`: filtragem centralizada
 - `layout/form-container.tsx`: busca + filtros (mobile/desktop)
 - `components/*`: renderização de perfil, listas e cards
+
+## Estrutura do projeto (atual)
+
+```text
+├── public
+│   └── favicon.ico
+├── src
+│   ├── assets
+│   │   └── header-logo-git.png
+│   ├── components
+│   │   ├── profile
+│   │   │   └── profile-content.tsx
+│   │   ├── skeleton
+│   │   │   ├── form-container-skeleton.tsx
+│   │   │   ├── profile-skeleton.tsx
+│   │   │   ├── repositories-content-skeleton.tsx
+│   │   │   └── user-profile-skeleton.tsx
+│   │   ├── ui
+│   │   │   ├── badge.tsx
+│   │   │   ├── button.tsx
+│   │   │   ├── card-repo.tsx
+│   │   │   ├── dropdown-menu.tsx
+│   │   │   ├── input.tsx
+│   │   │   ├── sheet.tsx
+│   │   │   ├── skeleton.tsx
+│   │   │   └── tabs.tsx
+│   │   ├── filter-form-repos.tsx
+│   │   ├── filter-sheet.tsx
+│   │   ├── repositories-content.tsx
+│   │   ├── starred-repositories-content.tsx
+│   │   └── user-profile.tsx
+│   ├── config
+│   │   ├── api.ts
+│   │   └── env.ts
+│   ├── hooks
+│   │   ├── use-filtered-repositories.ts
+│   │   ├── use-github-repositories.ts
+│   │   ├── use-github-starred.ts
+│   │   ├── use-github-user.ts
+│   │   └── use-repo-filter-options.ts
+│   ├── layout
+│   │   ├── form-container.tsx
+│   │   └── header.tsx
+│   ├── lib
+│   │   ├── react-query.ts
+│   │   └── utils.ts
+│   ├── pages
+│   │   └── profile.tsx
+│   ├── service
+│   │   └── github-service.ts
+│   ├── store
+│   │   └── github-store.ts
+│   ├── types
+│   │   ├── filters.ts
+│   │   └── index.ts
+│   ├── utils
+│   │   └── filters.ts
+│   ├── app.tsx
+│   ├── index.css
+│   └── main.tsx
+├── .gitignore
+├── README.md
+├── components.json
+├── eslint.config.js
+├── index.html
+├── package.json
+├── pnpm-lock.yaml
+├── tsconfig.app.json
+├── tsconfig.json
+├── tsconfig.node.json
+└── vite.config.ts
+```
 
 ## Como rodar localmente
 
@@ -48,10 +134,10 @@ pnpm install
 ```
 
 ### Ambiente
-Crie `.env` (se necessário, conforme `src/config/env.ts`), por exemplo:
+Crie `.env` com:
 
 ```env
-VITE_GITHUB_API_URL=https://api.github.com
+VITE_API_GITHUB_URL=https://api.github.com
 ```
 
 ### Execução
@@ -74,22 +160,21 @@ pnpm lint
 
 Aplicação publicada em: **https://profile-github-eight.vercel.app/**
 
-
 ## Desafios encontrados
 
-- Sincronizar React Query (server state) com Zustand (global UI state) sem duplicar responsabilidades.
-- Manter o layout pixel-perfect no mobile com filtros sobrepostos ao input.
-- Tipagem genérica de filtros (`FilterOption<T>`) sem usar type assertions desnecessárias.
-- Evitar duplicação entre listagem de repositórios e starred.
+- Sincronizar React Query (server state) com Zustand (global UI state) sem duplicar responsabilidades
+- Tipagem genérica de filtros (`FilterOption<T>`) 
+- Evitar duplicação entre listagem de repositórios e starred
+- validacao para limite de requisicoes para API rest do github
 
 ## Melhorias futuras
 
-- Testes unitários para hooks de filtro e componentes críticos.
-- Testes de integração (fluxos: busca, troca de tabs, filtros).
-- Tratamento refinado de loading/error/empty states.
-- Acessibilidade adicional (ARIA e navegação por teclado em todos os controles).
-- Virtualização de lista para grande volume de repositórios.
-- Persistência de filtros na URL (query params).
+- Testes unitários para hooks de filtro e componentes críticos
+- Testes de integração (fluxos: busca, troca de tabs, filtros)
+- Tratamento refinado de loading/error/empty states
+- Acessibilidade adicional (ARIA e navegação por teclado)
+- Virtualização de lista para grande volume de repositórios
+- Persistência de filtros na URL (query params)
 
 ## Boas práticas aplicadas
 
