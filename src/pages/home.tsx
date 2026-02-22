@@ -50,6 +50,12 @@ export function Home() {
           ) : (
             <RepositoriesContent />
           )}
+
+          {reposQuery.isError && (
+            <div className="text-gray-500 mt-4">
+              Ocorreu um erro ao carregar os repositórios...
+            </div>
+          )}
         </TabsContent>
 
         <TabsContent value="starred">
@@ -57,6 +63,12 @@ export function Home() {
             <RepositoriesContentSkeleton />
           ) : (
             <StarredRepositoriesContent />
+          )}
+
+          {starredQuery.isError && (
+            <div className="text-gray-500 mt-4">
+              Ocorreu um erro ao carregar os repositórios favoritos....
+            </div>
           )}
         </TabsContent>
       </Tabs>
