@@ -6,18 +6,18 @@ export const UserProfile = () => {
   const [isAdditionalInfoOpen, setIsAdditionalInfoOpen] = useState(true);
   const user = useGithubStore((s) => s.user);
 
-  if (!user) return null;
-
   return (
-    <div className="flex flex-col gap-3 items-center py-4 w-full">
+    <div className="flex flex-col gap-3 items-center py-4 md:px-2 w-full md:max-w-2/5">
       <img
-        src={user.avatar_url}
+        src={user?.avatar_url}
         alt="avatar"
         className="rounded-full w-32 h-32 shadow-lg"
       />
 
-      <h1 className="text-2xl text-gray-700 font-bold ">{user.name}</h1>
-      <span className="text-center text-gray-400 w-56">{user.bio}</span>
+      <h1 className="text-2xl text-gray-700 font-bold ">{user?.name}</h1>
+      <span className="text-center text-gray-400 w-56  md:w-full">
+        {user?.bio}
+      </span>
 
       <button
         type="button"
@@ -39,18 +39,18 @@ export const UserProfile = () => {
           isAdditionalInfoOpen ? "max-h-80 opacity-100" : "max-h-0 opacity-0"
         }`}
       >
-        <div className="bg-gray-50 md:bg-transparent p-3 rounded-lg flex flex-col gap-2 text-blue-400">
+        <div className="bg-gray-50 md:bg-transparent p-3 md:px-5 rounded-lg flex flex-col gap-2 text-blue-400">
           <span className="flex gap-3 items-center">
-            <Building2 size={18} /> {user.company}
+            <Building2 size={18} /> {user?.company}
           </span>
           <span className="flex gap-3 items-center">
-            <MapPin size={18} /> {user.location}
+            <MapPin size={18} /> {user?.location}
           </span>
           <span className="flex gap-3 items-center">
             <Link size={18} />
-            {user.blog}
+            {user?.blog}
           </span>
-          <span className="flex gap-3 items-center">{user.email}</span>
+          <span className="flex gap-3 items-center">{user?.email}</span>
         </div>
       </section>
     </div>
