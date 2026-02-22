@@ -182,6 +182,7 @@ Aplicação publicada em: **https://profile-github-eight.vercel.app/**
 - Acessibilidade adicional (ARIA e navegação por teclado)
 - Virtualização de lista para grande volume de repositórios
 - Persistência de filtros na URL (query params)
+- Filtros serem setados apenas nos repos da tab que esta aberta
 
 ## Boas práticas aplicadas
 
