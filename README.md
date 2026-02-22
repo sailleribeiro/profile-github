@@ -32,6 +32,12 @@ A aplicação usa rota dinâmica para buscar qualquer perfil do GitHub:
 - `http://localhost:5173/octocat`
 - `http://localhost:5173/torvalds`
 
+Em prod:
+
+- `https://profile-github-eight.vercel.app/sailleribeiro`
+- `https://profile-github-eight.vercel.app/octocat`
+- `https://profile-github-eight.vercel.app/torvalds`
+
 Comportamento:
 - `/` redireciona para um usuário padrão
 - `/:username` carrega perfil, repositórios e starred daquele usuário
