@@ -1,16 +1,21 @@
 import type { GithubRepo } from "@/types";
 import { Star, GitFork, Eye } from "lucide-react";
 
-interface CardRepoProps {
+interface CardRepoProps extends React.HTMLAttributes<HTMLDivElement> {
   repo: GithubRepo;
   variant?: "default" | "starred";
 }
 
-export function CardRepo({ repo, variant = "default" }: CardRepoProps) {
+export function CardRepo({
+  repo,
+  variant = "default",
+  ...props
+}: CardRepoProps) {
   return (
     <div
       className="hover:shadow-lg p-4 transition-colors cursor-pointer"
       onClick={() => window.open(repo.html_url, "_blank")}
+      {...props}
     >
       <div className="flex items-start justify-between mb-2">
         <div className="flex items-center gap-1">
