@@ -12,8 +12,11 @@ import { useGithubRepositories } from "@/hooks/use-github-repositories";
 import { useGithubStarred } from "@/hooks/use-github-starred";
 import { useGithubUser } from "@/hooks/use-github-user";
 
-export function Home() {
-  const username = useGithubStore((s) => s.username);
+type HomeProps = {
+  username: string;
+};
+
+export function Home({ username }: HomeProps) {
   const countRepos = useGithubStore((s) => s.repos.length);
   const countStarredRepos = useGithubStore((s) => s.starredRepos.length);
 
