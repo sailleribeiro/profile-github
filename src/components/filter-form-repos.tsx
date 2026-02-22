@@ -8,10 +8,10 @@ import {
 import { cn } from "@/lib/utils";
 import { Check, ChevronDown } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import { FilterSheet } from "../filter-sheet";
+import { FilterSheet } from "./filter-sheet";
 import type { FilterOption } from "@/types/filters";
 
-type FilterDropdownProps<T extends string> = {
+type FilterFormReposProps<T extends string> = {
   value: T[];
   onChange: (value: T[]) => void;
   options: FilterOption<T>[];
@@ -21,7 +21,7 @@ type FilterDropdownProps<T extends string> = {
   className?: string;
 };
 
-export function FilterDropdown<T extends string>({
+export function FilterFormRepos<T extends string>({
   value,
   onChange,
   options,
@@ -29,7 +29,7 @@ export function FilterDropdown<T extends string>({
   className,
   id,
   allLabel = "All",
-}: FilterDropdownProps<T>) {
+}: FilterFormReposProps<T>) {
   const [open, setOpen] = useState(false);
   const [isTabletUp, setIsTabletUp] = useState(false);
 
