@@ -39,7 +39,7 @@ export const UserProfile = () => {
           isAdditionalInfoOpen ? "max-h-80 opacity-100" : "max-h-0 opacity-0"
         }`}
       >
-        <div className="bg-gray-50 md:bg-transparent p-3 md:px-5 rounded-lg flex flex-col gap-2 text-blue-400">
+        <div className="bg-gray-50 md:bg-transparent p-3 md:px-5 rounded-lg flex flex-col gap-2 text-blue-500">
           <span className="flex gap-3 items-center">
             <Building2 size={18} /> {user?.company}
           </span>
@@ -48,7 +48,7 @@ export const UserProfile = () => {
           </span>
           <a
             href={user?.blog}
-            className="flex gap-3 items-center"
+            className="flex gap-3 items-center hover:underline"
             target="_blank"
             rel="noopener noreferrer"
           >

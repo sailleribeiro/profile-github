@@ -17,28 +17,30 @@ export function FormContainer() {
 
   return (
     <>
-      <div className="flex flex-wrap items-center gap-3">
-        <FilterFormRepos
-          value={selectedTypes}
-          onChange={setSelectedTypes}
-          options={typeOptions}
-          placeholder="Type"
+      <div className="flex flex-col items-start md:flex-row gap-3">
+        <Input
+          placeholder="Type Something Here..."
+          icon={<Search className="text-blue-500" />}
+          id="search-input"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
         />
-        <FilterFormRepos
-          value={selectedLanguages}
-          onChange={setSelectedLanguages}
-          options={languageOptions}
-          placeholder="Language"
-        />
-      </div>
 
-      <Input
-        placeholder="Type Something Here..."
-        icon={<Search className="text-blue-500" />}
-        id="search-input"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />
+        <div className="flex flex-row gap-3">
+          <FilterFormRepos
+            value={selectedTypes}
+            onChange={setSelectedTypes}
+            options={typeOptions}
+            placeholder="Type"
+          />
+          <FilterFormRepos
+            value={selectedLanguages}
+            onChange={setSelectedLanguages}
+            options={languageOptions}
+            placeholder="Language"
+          />
+        </div>
+      </div>
     </>
   );
 }
