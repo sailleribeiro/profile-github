@@ -51,6 +51,21 @@ export function CardRepo({
             <span className="text-xs py-1">{repo.language}</span>
           )}
 
+          <div className="flex gap-2 text-gray-600 text-sm">
+            <div className="flex items-center gap-1">
+              <Star size={16} />
+              <span>{repo.stargazers_count}</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <GitFork size={16} />
+              <span>{repo.forks_count}</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <Eye size={16} />
+              <span>{repo.watchers_count}</span>
+            </div>
+          </div>
+
           {repo.topics?.length > 0 && (
             <div className="flex flex-wrap gap-1">
               {repo.topics.slice(0, 3).map((topic) => (
@@ -63,21 +78,6 @@ export function CardRepo({
               ))}
             </div>
           )}
-        </div>
-
-        <div className="flex gap-4 text-gray-600 text-sm">
-          <div className="flex items-center gap-1">
-            <Star size={16} />
-            <span>{repo.stargazers_count}</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <GitFork size={16} />
-            <span>{repo.forks_count}</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <Eye size={16} />
-            <span>{repo.watchers_count}</span>
-          </div>
         </div>
       </div>
     </div>
