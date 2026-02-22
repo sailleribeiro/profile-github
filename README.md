@@ -172,6 +172,7 @@ Aplicação publicada em: **https://profile-github-eight.vercel.app/**
 - Tipagem genérica de filtros (`FilterOption<T>`) 
 - Evitar duplicação entre listagem de repositórios e starred
 - validacao para limite de requisicoes para API rest do github
+- config vercel para urls dinamicas
 
 ## Melhorias futuras
 
