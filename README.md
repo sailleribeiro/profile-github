@@ -1,73 +1,99 @@
-# React + TypeScript + Vite
+# GitHub Profile Explorer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicação React + TypeScript para visualizar perfil GitHub, repositórios e favoritos (starred), com filtros e busca.
 
-Currently, two official plugins are available:
+## Stack utilizada
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **React + Vite**
+- **TypeScript**
+- **TailwindCSS**
+- **Zustand** (estado global)
+- **React Query** (cache/fetch assíncrono)
 
-## React Compiler
+## Funcionalidades implementadas
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Carregamento dinâmico via API do GitHub
+- Carregamento inicial de:
+  - dados do usuário
+  - repositórios do usuário
+- Aba de **Starred** com carregamento sob demanda
+- Busca com `Enter` (submit)
+- Filtros por tipo e linguagem (dinâmicos, vindos dos dados da API)
+- Listagem com layout fiel ao Figma (responsivo)
+- Clique no repositório para visualizar mais informações/abrir destino
 
-## Expanding the ESLint configuration
+## Arquitetura (resumo)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- `store/github-store.ts`: estado global da aplicação
+- `hooks/use-github-*.ts`: integração com API + React Query
+- `hooks/use-filtered-repositories.ts`: filtragem centralizada
+- `layout/form-container.tsx`: busca + filtros (mobile/desktop)
+- `components/*`: renderização de perfil, listas e cards
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Como rodar localmente
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Pré-requisitos
+- Node.js 20+
+- **pnpm** (via Corepack)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Instalação do pnpm (se necessário)
+```bash
+corepack enable
+corepack prepare pnpm@latest --activate
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Instalação de dependências
+```bash
+pnpm install
 ```
+
+### Ambiente
+Crie `.env` (se necessário, conforme `src/config/env.ts`), por exemplo:
+
+```env
+VITE_GITHUB_API_URL=https://api.github.com
+```
+
+### Execução
+```bash
+pnpm dev
+```
+
+### Build
+```bash
+pnpm build
+pnpm preview
+```
+
+### Lint
+```bash
+pnpm lint
+```
+
+## Deploy
+
+Aplicação publicada em: **[vercel]**
+
+
+## Desafios encontrados
+
+- Sincronizar React Query (server state) com Zustand (global UI state) sem duplicar responsabilidades.
+- Manter o layout pixel-perfect no mobile com filtros sobrepostos ao input.
+- Tipagem genérica de filtros (`FilterOption<T>`) sem usar type assertions desnecessárias.
+- Evitar duplicação entre listagem de repositórios e starred.
+
+## Melhorias futuras
+
+- Testes unitários para hooks de filtro e componentes críticos.
+- Testes de integração (fluxos: busca, troca de tabs, filtros).
+- Tratamento refinado de loading/error/empty states.
+- Acessibilidade adicional (ARIA e navegação por teclado em todos os controles).
+- Virtualização de lista para grande volume de repositórios.
+- Persistência de filtros na URL (query params).
+
+## Boas práticas aplicadas
+
+- DRY na lógica de filtro com hook compartilhado
+- Separação de responsabilidades (hooks/store/components)
+- Tipagem explícita de domínio
+- Componentização e reuso de UI
