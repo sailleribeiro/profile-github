@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Building2, ChevronUp, Link, MapPin } from "lucide-react";
+import { Building2, ChevronUp, Link, MapPin, UserRoundX } from "lucide-react";
 import { useGithubStore } from "@/store/github-store";
 
 export const UserProfile = () => {
@@ -8,11 +8,17 @@ export const UserProfile = () => {
 
   return (
     <div className="flex flex-col gap-3 items-center py-4 md:px-2 w-full md:max-w-2/5">
-      <img
-        src={user?.avatar_url}
-        alt="avatar"
-        className="rounded-full w-32 h-32 md:w-48 md:h-48 shadow-lg"
-      />
+      {user?.avatar_url ? (
+        <img
+          src={user?.avatar_url}
+          alt="avatar"
+          className="rounded-full w-32 h-32 md:w-48 md:h-48"
+        />
+      ) : (
+        <div className="rounded-full w-32 h-32 md:w-48 md:h-48 bg-gray-100 flex items-center justify-center">
+          <UserRoundX />
+        </div>
+      )}
 
       <h1 className="text-2xl text-gray-700 font-bold ">{user?.name}</h1>
       <span className="text-center text-gray-400 w-56  md:w-full">
@@ -40,22 +46,33 @@ export const UserProfile = () => {
         }`}
       >
         <div className="bg-gray-50 md:bg-transparent p-3 md:px-5 rounded-lg flex flex-col gap-2 text-blue-500">
-          <span className="flex gap-3 items-center">
-            <Building2 size={18} /> {user?.company}
-          </span>
-          <span className="flex gap-3 items-center">
-            <MapPin size={18} /> {user?.location}
-          </span>
-          <a
-            href={user?.blog}
-            className="flex gap-3 items-center hover:underline"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Link size={18} />
-            {user?.blog}
-          </a>
-          <span className="flex gap-3 items-center">{user?.email}</span>
+          {user?.company && (
+            <span className="flex gap-3 items-center">
+              <Building2 size={18} /> {user?.company}
+            </span>
+          )}
+
+          {user?.location && (
+            <span className="flex gap-3 items-center">
+              <MapPin size={18} /> {user?.location}
+            </span>
+          )}
+
+          {user?.blog && (
+            <a
+              href={user?.blog}
+              className="flex gap-3 items-center hover:underline"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Link size={18} />
+              {user?.blog}
+            </a>
+          )}
+
+          {user?.email && (
+            <span className="flex gap-3 items-center">{user?.email}</span>
+          )}
         </div>
       </section>
     </div>

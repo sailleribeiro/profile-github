@@ -4,25 +4,35 @@ import { BookMarked, Star } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { RepositoriesContent } from "@/components/repositories-content";
 import { StarredRepositoriesContent } from "@/components/starred-repositories-content";
+import { RepositoriesContentSkeleton } from "@/components/skeleton/repositories-content-skeleton";
 
 import { useGithubStore } from "@/store/github-store";
 import { useGithubRepositories } from "@/hooks/use-github-repositories";
 import { useGithubStarred } from "@/hooks/use-github-starred";
 import { useGithubUser } from "@/hooks/use-github-user";
-export function Home() {
-  const username = useGithubStore((s) => s.username);
+import { ProfileSkeleton } from "../skeleton/profile-skeleton";
+
+type ProfileProps = {
+  username: string;
+};
+
+export function ProfileContent({ username }: ProfileProps) {
   const countRepos = useGithubStore((s) => s.repos.length);
   const countStarredRepos = useGithubStore((s) => s.starredRepos.length);
 
-  useGithubUser(username);
-  useGithubRepositories(username);
-  useGithubStarred(username);
+  const userQuery = useGithubUser(username);
+  const reposQuery = useGithubRepositories(username);
+  const starredQuery = useGithubStarred(username);
+
+  if (userQuery.isLoading || reposQuery.isLoading) {
+    return <ProfileSkeleton />;
+  }
 
   return (
-    <div className="flex flex-col md:flex-row md:items-start gap-4 items-center p-4">
+    <div className="flex flex-col items-center gap-4 p-4 md:flex-row md:items-start">
       <UserProfile />
 
-      <Tabs defaultValue="repositories">
+      <Tabs defaultValue="repositories" className="w-full">
         <TabsList>
           <TabsTrigger value="repositories">
             <BookMarked size={24} />
@@ -38,11 +48,31 @@ export function Home() {
         </TabsList>
 
         <TabsContent value="repositories">
-          <RepositoriesContent />
+          {reposQuery.isLoading ? (
+            <RepositoriesContentSkeleton />
+          ) : (
+            <RepositoriesContent />
+          )}
+
+          {reposQuery.isError && (
+            <div className="text-gray-500 mt-4">
+              Ocorreu um erro ao carregar os repositórios...
+            </div>
+          )}
         </TabsContent>
 
         <TabsContent value="starred">
-          <StarredRepositoriesContent />
+          {starredQuery.isLoading ? (
+            <RepositoriesContentSkeleton />
+          ) : (
+            <StarredRepositoriesContent />
+          )}
+
+          {starredQuery.isError && (
+            <div className="text-gray-500 mt-4">
+              Ocorreu um erro ao carregar os repositórios favoritos....
+            </div>
+          )}
         </TabsContent>
       </Tabs>
     </div>
