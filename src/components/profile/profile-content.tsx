@@ -4,19 +4,19 @@ import { BookMarked, Star } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { RepositoriesContent } from "@/components/repositories-content";
 import { StarredRepositoriesContent } from "@/components/starred-repositories-content";
-import { HomeSkeleton } from "@/components/skeleton/home-skeleton";
 import { RepositoriesContentSkeleton } from "@/components/skeleton/repositories-content-skeleton";
 
 import { useGithubStore } from "@/store/github-store";
 import { useGithubRepositories } from "@/hooks/use-github-repositories";
 import { useGithubStarred } from "@/hooks/use-github-starred";
 import { useGithubUser } from "@/hooks/use-github-user";
+import { ProfileSkeleton } from "../skeleton/profile-skeleton";
 
-type HomeProps = {
+type ProfileProps = {
   username: string;
 };
 
-export function Home({ username }: HomeProps) {
+export function ProfileContent({ username }: ProfileProps) {
   const countRepos = useGithubStore((s) => s.repos.length);
   const countStarredRepos = useGithubStore((s) => s.starredRepos.length);
 
@@ -25,7 +25,7 @@ export function Home({ username }: HomeProps) {
   const starredQuery = useGithubStarred(username);
 
   if (userQuery.isLoading || reposQuery.isLoading) {
-    return <HomeSkeleton />;
+    return <ProfileSkeleton />;
   }
 
   return (

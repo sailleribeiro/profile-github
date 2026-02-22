@@ -2,7 +2,7 @@ import { RepositoriesContentSkeleton } from "@/components/skeleton/repositories-
 import { UserProfileSkeleton } from "@/components/skeleton/user-profile-skeleton";
 import { Skeleton } from "@/components/ui/skeleton";
 
-export function HomeSkeleton() {
+export function ProfileSkeleton() {
   return (
     <div className="flex flex-col items-center gap-4 p-4 md:flex-row md:items-start">
       <UserProfileSkeleton />

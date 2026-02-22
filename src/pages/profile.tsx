@@ -1,6 +1,6 @@
+import { ProfileContent } from "@/components/profile/profile-content";
 import { Header } from "@/layout/header";
 import { useParams } from "react-router-dom";
-import { Home } from "./home";
 export function Profile() {
   const { username = "sailleribeiro" } = useParams();
 
@@ -8,7 +8,7 @@ export function Profile() {
     <>
       <Header />
       <main className="max-w-7xl mx-auto md:p-6 w-full">
-        <Home username={username} />
+        <ProfileContent username={username} />
       </main>
     </>
   );
