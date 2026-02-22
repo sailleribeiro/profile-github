@@ -7,7 +7,7 @@ export function App() {
     <>
       <QueryClientProvider client={queryClient}>
         <Header />
-        <main className="max-w-5xl mx-auto p-6 w-full">
+        <main className="max-w-7xl mx-auto p-6 w-full">
           <Home />
         </main>
       </QueryClientProvider>

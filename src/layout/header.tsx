@@ -4,7 +4,7 @@ export const Header = () => {
   const user = useGithubStore((s) => s.user);
 
   return (
-    <header className="hidden md:flex bg-foreground py-3 px-32 flex-row items-center gap-1">
+    <header className="hidden md:flex bg-foreground py-3 px-40 flex-row items-center gap-1">
       <img
         src="/src/assets/header-logo-git.png"
         alt="GitHub Logo"

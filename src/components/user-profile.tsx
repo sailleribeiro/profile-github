@@ -46,10 +46,15 @@ export const UserProfile = () => {
           <span className="flex gap-3 items-center">
             <MapPin size={18} /> {user?.location}
           </span>
-          <span className="flex gap-3 items-center">
+          <a
+            href={user?.blog}
+            className="flex gap-3 items-center"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <Link size={18} />
             {user?.blog}
-          </span>
+          </a>
           <span className="flex gap-3 items-center">{user?.email}</span>
         </div>
       </section>
