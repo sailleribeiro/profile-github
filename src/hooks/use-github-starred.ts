@@ -9,6 +9,7 @@ export function useGithubStarred(username: string, isEnabled: boolean = true) {
     queryKey: ["github-starred-repos", username],
     queryFn: () => githubService.getStarredRepos(username),
     enabled: !!username && isEnabled,
+    staleTime: 1000 * 60 * 5,
     onSuccess: (data) => setStarredRepos(data),
   });
 }

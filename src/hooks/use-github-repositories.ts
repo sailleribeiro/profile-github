@@ -9,6 +9,7 @@ export function useGithubRepositories(username: string) {
     queryKey: ["github-repositories", username],
     queryFn: () => githubService.getRepos(username),
     enabled: !!username,
+    staleTime: 1000 * 60 * 5,
     onSuccess: (data) => setRepos(data),
   });
 }

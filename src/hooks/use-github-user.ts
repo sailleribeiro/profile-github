@@ -9,6 +9,7 @@ export function useGithubUser(username: string) {
     queryKey: ["github-user", username],
     queryFn: () => githubService.getUser(username),
     enabled: !!username,
+    staleTime: 1000 * 60 * 5,
     onSuccess: (data) => setUser(data),
   });
 }
