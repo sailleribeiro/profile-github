@@ -9,18 +9,16 @@ export function useFilteredRepositories(
   source: RepositorySource,
 ): GithubRepo[] {
   const repositories = useGithubStore((s) => s[source]);
-  const selectedLanguages = useGithubStore((s) => s.selectedLanguages);
-  const selectedTypes = useGithubStore((s) => s.selectedTypes);
-  const search = useGithubStore((s) => s.search);
+  const filters = useGithubStore((s) => s.filters[source]);
 
   return useMemo(
     () =>
       repositories.filter(
         (repo) =>
-          matchesType(repo, selectedTypes) &&
-          matchesLanguage(repo, selectedLanguages) &&
-          matchesSearch(repo, search),
+          matchesType(repo, filters.selectedTypes) &&
+          matchesLanguage(repo, filters.selectedLanguages) &&
+          matchesSearch(repo, filters.search),
       ),
-    [repositories, selectedTypes, selectedLanguages, search],
+    [repositories, filters],
   );
 }

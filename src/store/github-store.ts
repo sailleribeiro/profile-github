@@ -2,25 +2,40 @@ import { create } from "zustand";
 import type { GithubRepo, GithubUser } from "@/types";
 import type { RepoType } from "@/types/filters";
 
+type FilterState = {
+  selectedLanguages: string[];
+  selectedTypes: RepoType[];
+  search: string;
+};
+
+const initialFilters: FilterState = {
+  selectedLanguages: [],
+  selectedTypes: [],
+  search: "",
+};
+
 type GithubStore = {
   username: string;
   user: GithubUser | null;
   repos: GithubRepo[];
   starredRepos: GithubRepo[];
 
-  selectedLanguages: string[];
-  selectedTypes: RepoType[];
-  search: string;
+  filters: {
+    repos: FilterState;
+    starredRepos: FilterState;
+  };
 
   setUsername: (username: string) => void;
   setUser: (user: GithubUser) => void;
   setRepos: (repos: GithubRepo[]) => void;
   setStarredRepos: (repos: GithubRepo[]) => void;
 
-  setSelectedLanguages: (languages: string[]) => void;
-  setSelectedTypes: (types: RepoType[]) => void;
-  setSearch: (value: string) => void;
-  resetFilters: () => void;
+  setFilter: <K extends keyof FilterState>(
+    source: "repos" | "starredRepos",
+    key: K,
+    value: FilterState[K],
+  ) => void;
+  resetFilters: (source: "repos" | "starredRepos") => void;
 };
 
 export const useGithubStore = create<GithubStore>((set) => ({
@@ -29,22 +44,32 @@ export const useGithubStore = create<GithubStore>((set) => ({
   repos: [],
   starredRepos: [],
 
-  selectedLanguages: [],
-  selectedTypes: [],
-  search: "",
+  filters: {
+    repos: { ...initialFilters },
+    starredRepos: { ...initialFilters },
+  },
 
   setUsername: (username) => set({ username }),
   setUser: (user) => set({ user }),
   setRepos: (repos) => set({ repos }),
   setStarredRepos: (starredRepos) => set({ starredRepos }),
 
-  setSelectedLanguages: (selectedLanguages) => set({ selectedLanguages }),
-  setSelectedTypes: (selectedTypes) => set({ selectedTypes }),
-  setSearch: (search) => set({ search }),
-  resetFilters: () =>
-    set({
-      selectedLanguages: [],
-      selectedTypes: [],
-      search: "",
-    }),
+  setFilter: (source, key, value) =>
+    set((state) => ({
+      filters: {
+        ...state.filters,
+        [source]: {
+          ...state.filters[source],
+          [key]: value,
+        },
+      },
+    })),
+
+  resetFilters: (source) =>
+    set((state) => ({
+      filters: {
+        ...state.filters,
+        [source]: { ...initialFilters },
+      },
+    })),
 }));
