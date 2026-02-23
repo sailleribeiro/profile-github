@@ -7,7 +7,7 @@ export const StarredRepositoriesContent = () => {
 
   return (
     <section className="space-y-3">
-      <FormContainer />
+      <FormContainer source="starredRepos" />
 
       <div className="flex flex-col">
         {items.map((repo, index) => (

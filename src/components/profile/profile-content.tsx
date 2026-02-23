@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { UserProfile } from "@/components/user-profile";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookMarked, Star } from "lucide-react";
@@ -17,12 +18,14 @@ type ProfileProps = {
 };
 
 export function ProfileContent({ username }: ProfileProps) {
+  const [activeTab, setActiveTab] = useState("repositories");
+
   const countRepos = useGithubStore((s) => s.repos.length);
   const countStarredRepos = useGithubStore((s) => s.starredRepos.length);
 
   const userQuery = useGithubUser(username);
   const reposQuery = useGithubRepositories(username);
-  const starredQuery = useGithubStarred(username);
+  const starredQuery = useGithubStarred(username, activeTab === "starred");
 
   if (userQuery.isLoading || reposQuery.isLoading) {
     return <ProfileSkeleton />;
@@ -32,7 +35,7 @@ export function ProfileContent({ username }: ProfileProps) {
     <div className="flex flex-col items-center gap-4 p-4 md:flex-row md:items-start">
       <UserProfile />
 
-      <Tabs defaultValue="repositories" className="w-full">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList>
           <TabsTrigger value="repositories">
             <BookMarked size={24} />

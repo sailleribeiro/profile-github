@@ -7,7 +7,7 @@ export const RepositoriesContent = () => {
 
   return (
     <section className="space-y-3">
-      <FormContainer />
+      <FormContainer source="repos" />
 
       <div className="flex flex-col">
         {items.map((repo, index) => (
